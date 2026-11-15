@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-gradient-to-r from-water to-aqua text-[#04121f] shadow-glow hover:brightness-110',
+          'bg-gradient-to-r from-water to-aqua text-on-accent shadow-glow hover:brightness-110',
         secondary: 'border bg-surface-2/70 text-text hover:bg-surface-2',
         outline: 'border border-water/40 text-water hover:bg-water/10',
         ghost: 'text-muted hover:bg-text/5 hover:text-text',

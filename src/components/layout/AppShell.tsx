@@ -1,53 +1,50 @@
-import { NavLink, Outlet, Link } from 'react-router-dom';
-import { ROUTES } from '@/routes';
-import { Logo } from '@/components/common/Logo';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useClock } from '@/hooks/useClock';
+import { useThemeSync } from '@/hooks/useTheme';
+import { useT } from '@/i18n/useT';
 import { AuroraBackground } from './AuroraBackground';
-import { cn } from '@/lib/utils';
+import { BottomNav } from './BottomNav';
+import { Footer } from './Footer';
+import { SideNav } from './SideNav';
+import { TopBar } from './TopBar';
 
-/** Minimal shell for Step 01. Step 02 replaces it with the full top bar and navigation. */
+/** Frame around every page: side nav (desktop), top bar, content, footer, bottom nav (mobile). */
 export function AppShell() {
+  useClock();
+  useThemeSync();
+  const t = useT();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col lg:pl-60">
       <AuroraBackground />
       <a
         href="#main"
+        onClick={(e) => {
+          // The hash is used by the router, so move focus by hand.
+          e.preventDefault();
+          document.getElementById('main')?.focus();
+        }}
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2"
       >
-        Skip to content
+        {t('ui.skip')}
       </a>
-      <header className="sticky top-0 z-40 border-b bg-bg/70 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
-          <Link to="/" aria-label="LoopLocal home">
-            <Logo />
-          </Link>
+      <SideNav />
+      <TopBar />
+      <main id="main" tabIndex={-1} className="flex-1 px-3 py-4 outline-none sm:px-5 lg:px-6 lg:py-6">
+        <div key={pathname} className="animate-fade-up">
+          <Outlet />
         </div>
-        <nav aria-label="Main" className="mx-auto max-w-7xl overflow-x-auto px-2 no-scrollbar">
-          <ul className="flex gap-1 pb-2">
-            {ROUTES.map((r) => (
-              <li key={r.path}>
-                <NavLink
-                  to={r.path}
-                  className={({ isActive }) =>
-                    cn(
-                      'flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm text-muted transition-colors hover:bg-text/5 hover:text-text',
-                      isActive && 'bg-water/10 text-water',
-                    )
-                  }
-                >
-                  <r.icon className="size-4" />
-                  {r.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </header>
-      <main id="main" className="flex-1 px-4 py-4">
-        <Outlet />
       </main>
-      <footer className="border-t px-4 py-4 text-center text-xs text-muted">
-        The software recommends; people carry out the actions.
-      </footer>
+      <div className="pb-16 lg:pb-0">
+        <Footer />
+      </div>
+      <BottomNav />
     </div>
   );
 }

@@ -20,6 +20,7 @@
     --danger: 248 113 113;
     --text: 230 237 247;
     --muted: 138 155 184;
+    --on-accent: 4 18 31; /* text on the teal → aqua gradient */
     color-scheme: dark;
   }
 
@@ -36,6 +37,7 @@
     --danger: 185 28 28;
     --text: 15 23 42;
     --muted: 71 85 105;
+    --on-accent: 255 255 255;
     color-scheme: light;
   }
 

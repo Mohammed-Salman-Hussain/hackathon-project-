@@ -4,6 +4,8 @@ import type { RouteMeta } from '@/routes';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LOOPS, loopColor } from '@/lib/loops';
+import { useT } from '@/i18n/useT';
+import type { MessageKey } from '@/i18n/en';
 
 /**
  * Interim page for a screen whose build step has not landed yet.
@@ -11,6 +13,7 @@ import { LOOPS, loopColor } from '@/lib/loops';
  */
 export function ScreenBrief({ route }: { route: RouteMeta }) {
   const Icon = route.icon;
+  const t = useT();
   return (
     <div className="mx-auto max-w-3xl animate-fade-up py-6">
       <Card className="p-6 sm:p-8">
@@ -22,7 +25,7 @@ export function ScreenBrief({ route }: { route: RouteMeta }) {
             <p className="text-xs font-medium uppercase tracking-widest text-muted">
               Build step {String(route.step).padStart(2, '0')}
             </p>
-            <h1 className="text-2xl font-bold sm:text-3xl">{route.label}</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">{t(`nav.${route.key}` as MessageKey)}</h1>
           </div>
         </div>
         <p className="mt-5 text-base leading-relaxed text-muted">{route.blurb}</p>
@@ -40,7 +43,7 @@ export function ScreenBrief({ route }: { route: RouteMeta }) {
         <div className="mt-8">
           <Button asChild variant="secondary">
             <Link to="/">
-              Back to overview <ArrowRight />
+              {t('nav.home')} <ArrowRight />
             </Link>
           </Button>
         </div>

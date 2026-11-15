@@ -33,3 +33,19 @@ One block per step, newest at the bottom. Whoever continues: read the last block
   - **The repo owner must enable Pages once:** Settings → Pages → Source: "GitHub Actions". Until then the deploy job fails; the build job still passes.
   - three, @react-three/fiber (v8 for React 18), @react-three/drei (v9), recharts and maplibre-gl are not installed yet; add them in the step that first needs them.
 - Next step for whoever continues: **Step 02 — layout** on `step-02-layout`, branched from `step-01-scaffold` if PR 1 is not merged yet.
+
+## Step 02 — Layout
+- Model: Claude Fable 5.2
+- Date: 2026-11-15
+- Branch / PR: `step-02-layout` (branched from `step-01-scaffold`) / see PR list
+- Status: Done
+- What was built: top bar (locality, hub, scenario, simulated clock with play / pause / 1×-2×-4×, language EN / తె / हि, role switcher, theme toggle); desktop side navigation with Screens and Tools groups; phone bottom navigation with a "More" sheet; a Controls sheet that holds every control on narrow screens plus "Reset demo" with a confirmation dialog; footer; light theme; i18n dictionaries; shared `GlassCard`, `HelpTip` ("?"), `EstimateChip` ("Model estimate"), `Segmented`. The clock really ticks (one `requestAnimationFrame` loop, a day in 120 s at 1×) and choices persist in `localStorage` under `looplocal-ui`.
+- Files touched (key): `src/store/ui.ts`, `src/hooks/useClock.ts`, `src/i18n/*`, `src/components/layout/*`, `src/components/common/*`, `src/data/localities.ts`, `src/data/hubDirectory.ts`
+- How to test: switch role, scenario, language and theme and reload: the choices stay. Press pause: the clock stops. Narrow the window below 1024 px: side nav becomes the bottom nav, controls move into the sheet. Controls → Reset demo clears saved state.
+- Screenshots: `docs/screenshots/step-02/`
+- Known issues / TODO:
+  - Telugu and Hindi labels were checked for key coverage by a unit test, but the build sandbox has no Telugu/Devanagari font, so their on-screen shaping could not be reviewed in a screenshot. Check once in a normal browser (Noto Sans Telugu / Devanagari load from Google Fonts).
+  - Only the labels in `src/i18n/en.ts` are translated. Each later step adds its own key labels to all three dictionaries (the test in `tests/i18n.test.ts` fails if one is missed).
+  - Every `localStorage` key must start with `looplocal-` so "Reset demo" clears it.
+  - Hubs exist for all five localities in `src/data/hubDirectory.ts` (10 in Kukatpally, 2 each elsewhere). Step 03 decides how much of the engine runs for the other four.
+- Next step for whoever continues: **Step 03 — simulation engine** on `step-03-sim-engine`, branched from `step-02-layout`.

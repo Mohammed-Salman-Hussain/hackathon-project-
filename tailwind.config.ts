@@ -22,10 +22,11 @@ export default {
         danger: token('danger'),
         text: token('text'),
         muted: token('muted'),
+        'on-accent': token('on-accent'),
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        display: ['"Space Grotesk"', 'Inter', '"Noto Sans Telugu"', '"Noto Sans Devanagari"', 'system-ui', 'sans-serif'],
+        sans: ['Inter', '"Noto Sans Telugu"', '"Noto Sans Devanagari"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       borderRadius: { xl: '0.9rem', '2xl': '1.25rem' },
