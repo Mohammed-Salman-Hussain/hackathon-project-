@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { LoopRing } from '@/components/common/LoopRing';
 import { LOOPS, loopColor } from '@/lib/loops';
 import { ROUTES } from '@/routes';
+import { LiveEngine } from './LiveEngine';
 
 /** Overview page. Step 04 replaces the hero with the 3D Loop Ring and the scroll story. */
 export function Home() {
@@ -39,6 +40,10 @@ export function Home() {
             <p className="text-xs uppercase tracking-widest text-muted">loops, one engine</p>
           </div>
         </div>
+      </section>
+
+      <section aria-label="Live engine" className="pb-6">
+        <LiveEngine />
       </section>
 
       <section aria-labelledby="loops-h" className="py-4">
