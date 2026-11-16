@@ -6,8 +6,10 @@ import { Home } from '@/pages/Home';
 import { NotFound } from '@/pages/NotFound';
 import { ScreenBrief } from '@/pages/ScreenBrief';
 import { ROUTES } from '@/routes';
+import { useUi } from '@/store/ui';
 
 export default function App() {
+  const theme = useUi((s) => s.theme);
   return (
     <TooltipProvider delayDuration={200}>
       <HashRouter>
@@ -21,7 +23,7 @@ export default function App() {
           </Route>
         </Routes>
       </HashRouter>
-      <Toaster theme="dark" />
+      <Toaster theme={theme} />
     </TooltipProvider>
   );
 }

@@ -9,7 +9,7 @@ import { ROUTES } from '@/routes';
 /** Overview page. Step 04 replaces the hero with the 3D Loop Ring and the scroll story. */
 export function Home() {
   return (
-    <div className="mx-auto max-w-6xl animate-fade-up">
+    <div className="mx-auto max-w-6xl">
       <section className="grid items-center gap-8 py-8 md:grid-cols-[1.15fr_0.85fr] md:py-14">
         <div>
           <p className="chip border-water/30 text-water">Neighbourhood layer · Kukatpally, Hyderabad</p>
