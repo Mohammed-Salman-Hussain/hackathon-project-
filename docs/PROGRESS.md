@@ -49,3 +49,32 @@ One block per step, newest at the bottom. Whoever continues: read the last block
   - Every `localStorage` key must start with `looplocal-` so "Reset demo" clears it.
   - Hubs exist for all five localities in `src/data/hubDirectory.ts` (10 in Kukatpally, 2 each elsewhere). Step 03 decides how much of the engine runs for the other four.
 - Next step for whoever continues: **Step 03 — simulation engine** on `step-03-sim-engine`, branched from `step-02-layout`.
+
+## Step 03 — Simulation engine
+- Model: Claude Fable 5.2
+- Date: 2026-11-15
+- Branch / PR: `step-03-sim-engine` (branched from `step-02-layout`) / see PR list
+- Status: Done
+- What was built:
+  - `src/engine/` (pure TypeScript, no React): `types`, `rng` (seeded), `formulas` (every formula and constant, plus the `FORMULAS` list for the Assumptions drawer), `scenarios` (normal, storm, heatwave, peak), `simulate` (a full day in 5-minute steps for every hub, drain and feeder, with the Loop Score), `decisions` (8 deterministic rules → ranked actions with place, reason, deadline, assignee trade, checklist, safety tip, impact), `session` (merges saved statuses, feeds finished actions back into the simulation), `sha256` (for the hash-chained audit log).
+  - `src/data/`: Kukatpally seed data (10 hubs, 22 drains, 9 feeders, 12 STPs of which 4 registered, 12 workers, 3 buyer sites) and a seeded generator for the other four localities.
+  - `src/store/sim.ts` (persisted as `looplocal-sim`): action statuses, reported actions, audit log. `dispatch`, `markDone`, `verify`, `addCustom`, `log`.
+  - Hooks: `useSession()` (the day), `useSim()` (the day at the current minute: `snap`, `usualSnap`, `score`, `visible` actions).
+  - UI: Assumptions drawer, Loop Score gauge (side nav and overview), live engine panel on the overview with KPIs and the top actions, `CountUp`.
+  - 27 engine unit tests (`tests/engine/`).
+- Files touched (key): `src/engine/*`, `src/data/kukatpally.ts`, `src/data/locality.ts`, `src/store/sim.ts`, `src/hooks/useSim.ts`, `src/components/common/{AssumptionsDrawer,LoopScoreCard,CountUp}.tsx`, `src/pages/LiveEngine.tsx`
+- How to test: `npm test`. In the app, open the overview, switch the scenario to Storm day and let the clock run: the Loop Score, KPIs and action list change. Open "Assumptions".
+- Screenshots: `docs/screenshots/step-03/`
+- How the engine fits together (read this before Steps 05–13):
+  - The whole day is computed up front (`simulateDay`), so any screen can read any minute (`snapshotAt(day, minute)`), which is what the Hub Twin scrubber and Storm Simulator need.
+  - `mode: 'with' | 'without'`. `session.usual` is the same day run the usual way (timer pumping, no reuse, pits not opened). Use it for every "with vs without" comparison.
+  - Actions come from `planDay` on the baseline day, so the list is stable. Their ids are `locality:scenario:rule:target`. Status lives in the store. An action that is `done` or `verified` changes the simulation through `effectsOf` (cleared drain, topped-up tank, opened pit, fixed STP, shifted pumping, collected waste). A `verified` action also adds its `impact.scoreDelta` to its loop's sub-score (capped at 18 per loop) via `applyActionBonus`. That is the "Loop Score animates up" moment for Step 06.
+  - `effects.all = true` assumes every recommendation was carried out; use it for the "after" side of the Storm Simulator.
+  - Storm day, Kukatpally, end of day: usual way 7 flooded drains and 250 hub-minutes without water; with every action done 0 and 0. These are model estimates.
+- Known issues / TODO:
+  - Tuning choices made here that the plan did not fix: piped supply covers 78% of demand; tankers avoided = (trips on the usual day − trips with LoopLocal) + 30% of recharge ÷ 5,000 L, not the simpler reuse-based formula in PLAN §4; storm peak is 26 mm/h (85 mm in the day); clog-risk rain term saturates at 30 mm/h. All are listed in the Assumptions drawer.
+  - Performance finding: animating CSS-blurred aurora layers ran at 7 fps without a GPU. The aurora now uses plain radial gradients and `.glass` cards have no `backdrop-filter` (56–61 fps in the same test). Keep `backdrop-filter` to the sticky bars and sheets only, and never animate an element that has a CSS blur.
+  - The four non-Kukatpally localities use generated data (2 hubs, 8 drains, 3 feeders each). Good enough for the selector to work; Replicate (Step 10) has its own illustrative weights.
+  - Night-flow history for the Leak Detective (Step 13): use `nightFlowLph(flats, leakGrowth, dayIndex, noise)`; `sai-krupa` (7%/day) trips the rule, `vivekananda-c` (4%/day) is a "watch".
+  - Not yet installed: three, @react-three/fiber@8, @react-three/drei@9 (Step 04), maplibre-gl and recharts (Step 05).
+- Next step for whoever continues: **Step 04 — landing** on `step-04-landing`, branched from `step-03-sim-engine`: 3D Loop Ring hero (lazy, SVG fallback = the existing `LoopRing`), the "one colony, one bad week" scroll story, loop cards, "Enter Command Centre" and "Start 2-minute demo" buttons. Keep `LiveEngine` on the page or move it to Command in Step 05.

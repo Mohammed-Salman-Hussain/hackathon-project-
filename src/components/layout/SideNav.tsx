@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import { Logo } from '@/components/common/Logo';
+import { LoopScoreCard } from '@/components/common/LoopScoreCard';
 import { useT } from '@/i18n/useT';
 import type { MessageKey } from '@/i18n/en';
 import { ROUTES, type RouteMeta } from '@/routes';
@@ -59,6 +60,9 @@ export function SideNav() {
           ))}
         </ul>
       </nav>
+      <div className="border-t p-4">
+        <LoopScoreCard compact />
+      </div>
     </aside>
   );
 }

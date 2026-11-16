@@ -3,8 +3,9 @@ import { persist } from 'zustand/middleware';
 import { DEFAULT_LOCALITY } from '@/data/localities';
 import { hubsIn } from '@/data/hubDirectory';
 
-export type Role = 'officer' | 'resident' | 'worker';
-export type ScenarioId = 'normal' | 'storm' | 'heatwave' | 'peak';
+import type { Role, ScenarioId } from '@/engine/types';
+
+export type { Role, ScenarioId };
 export type Lang = 'en' | 'te' | 'hi';
 export type Theme = 'dark' | 'light';
 export type Speed = 1 | 2 | 4;

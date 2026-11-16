@@ -75,7 +75,8 @@
 @layer components {
   /* Glass card: translucent surface, soft border, faint top highlight. */
   .glass {
-    @apply rounded-2xl border bg-surface/70 shadow-card backdrop-blur-xl;
+    /* No backdrop-filter here: many blurred cards over a moving background is slow on modest laptops. */
+    @apply rounded-2xl border bg-surface/85 shadow-card;
     background-image: linear-gradient(180deg, rgb(var(--text) / 0.045), transparent 40%);
   }
 
