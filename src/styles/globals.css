@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Theme tokens. Values are "R G B" so Tailwind can apply opacity.
+ * Change the palette here and the whole app follows.
+ */
+@layer base {
+  :root {
+    --bg: 6 11 26; /* #060B1A */
+    --surface: 11 20 48; /* #0B1430 */
+    --surface-2: 18 30 66;
+    --line: 148 170 210;
+    --water: 20 224 200; /* teal: used water → resource */
+    --aqua: 56 189 248; /* blue-cyan: saved water → saved power */
+    --energy: 251 191 36; /* amber: sun + biogas → pumps */
+    --waste: 52 211 153; /* green: waste → power */
+    --rain: 167 139 250; /* violet: rain → water */
+    --danger: 248 113 113;
+    --text: 230 237 247;
+    --muted: 138 155 184;
+    color-scheme: dark;
+  }
+
+  .light {
+    --bg: 243 246 252;
+    --surface: 255 255 255;
+    --surface-2: 233 239 249;
+    --line: 71 85 105;
+    --water: 13 128 118;
+    --aqua: 3 105 161;
+    --energy: 161 78 5;
+    --waste: 4 120 87;
+    --rain: 109 40 217;
+    --danger: 185 28 28;
+    --text: 15 23 42;
+    --muted: 71 85 105;
+    color-scheme: light;
+  }
+
+  * {
+    border-color: rgb(var(--line) / 0.16);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg font-sans text-text antialiased;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--water));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgb(var(--water) / 0.3);
+  }
+}
+
+@layer components {
+  /* Glass card: translucent surface, soft border, faint top highlight. */
+  .glass {
+    @apply rounded-2xl border bg-surface/70 shadow-card backdrop-blur-xl;
+    background-image: linear-gradient(180deg, rgb(var(--text) / 0.045), transparent 40%);
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium leading-5;
+  }
+
+  .text-gradient {
+    background: linear-gradient(90deg, rgb(var(--water)), rgb(var(--aqua)) 45%, rgb(var(--rain)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line) / 0.3) transparent;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

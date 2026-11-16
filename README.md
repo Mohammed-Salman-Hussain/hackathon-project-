@@ -5,7 +5,9 @@ The Loop Hub is the body where its decisions happen.
 
 Hackathon Round 1 entry · Urban Tech · UN SDGs 6, 7, 9, 11 · worked example: Kukatpally / KPHB, Hyderabad.
 
-> Status: planning complete, build in progress. Live demo link will appear here after Step 01.
+**Live demo:** https://mohammed-salman-hussain.github.io/hackathon-project-/ (published by GitHub Actions on every merge to `main`; enable Settings → Pages → Source: GitHub Actions once)
+
+> Status: build in progress. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ## The problem
 - One rain and wind spell cut power for 5–6 hours across 20+ colonies; pumps trip and water stops.
@@ -25,7 +27,7 @@ Hackathon Round 1 entry · Urban Tech · UN SDGs 6, 7, 9, 11 · worked example: 
 - [`docs/PLAN.md`](docs/PLAN.md) — architecture, data model and step-by-step build plan
 - [`docs/PROGRESS.md`](docs/PROGRESS.md) — log of every step, for handover between models
 
-## Run locally (from Step 01 onward)
+## Run locally
 ```
 npm i && npm run dev
 ```
